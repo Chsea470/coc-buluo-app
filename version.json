@@ -1,0 +1,16 @@
+[
+  {
+    "version": "0.12.65",
+    "url": "https://coc-buluo-app.surge.sh/coc-buluo-v0.12.65.apk",
+    "sha256": "224855aaada48c102d07bf22ea3a41d6a423bd9ec19391d64faaa62e7fdce6ac",
+    "is_stable": true,
+    "notes": "优化阵型库加载速度，修复后台恢复数据丢失，修复都城子区域上传，提升整体稳定性"
+  },
+  {
+    "version": "0.12.66-beta.15",
+    "url": "https://gitee.com/chengcheng06/coc-buluo/releases/download/v0.12.66-beta.15/coc-buluo-v0.12.66-beta.15.apk",
+    "sha256": "50b0a6d7368c9f1b29f37d6ba138533d292ed0b6427edf7f5a5706a320aa5f50",
+    "is_stable": false,
+    "notes": "修复多药水叠加剩余时间计算、通知去重、阵型图片与类型错乱，移除腾讯云函数依赖"
+  }
+]
