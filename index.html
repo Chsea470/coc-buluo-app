@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232E7D32'/><circle cx='50' cy='55' r='28' fill='none' stroke='white' stroke-width='6'/><line x1='50' y1='55' x2='50' y2='38' stroke='white' stroke-width='5' stroke-linecap='round'/><line x1='50' y1='55' x2='63' y2='60' stroke='white' stroke-width='5' stroke-linecap='round'/><rect x='42' y='18' width='16' height='8' rx='2' fill='white'/></svg>">
+<title>coc部落 - 部落冲突辅助工具</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#2E7D32;
+  --primary-light:#4CAF50;
+  --primary-lighter:#E8F5E9;
+  --text:#1a1a1a;
+  --text-secondary:#666;
+  --text-muted:#999;
+  --bg:#ffffff;
+  --bg-soft:#f8faf9;
+  --border:#e8ece9;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.08);
+  --radius:16px;
+  --radius-sm:10px;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Hero */
+.hero{
+  background:linear-gradient(180deg,#f4faf5 0%,#ffffff 100%);
+  padding:80px 24px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:-100px;right:-100px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(76,175,80,.08) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  bottom:-80px;left:-80px;
+  width:250px;height:250px;
+  background:radial-gradient(circle,rgba(46,125,50,.06) 0%,transparent 70%);
+  border-radius:50%;
+}
+.hero-content{position:relative;z-index:1}
+.hero .badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--primary-lighter);
+  color:var(--primary);
+  padding:6px 16px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:20px;
+}
+.hero .badge .dot{
+  width:6px;height:6px;
+  background:var(--primary-light);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.4}
+}
+.hero h1{
+  font-size:42px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:12px;
+  letter-spacing:-.5px;
+}
+.hero h1 span{color:var(--primary)}
+.hero .subtitle{
+  font-size:17px;
+  color:var(--text-secondary);
+  margin-bottom:32px;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.download-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(135deg,var(--primary-light) 0%,var(--primary) 100%);
+  color:#fff;
+  padding:16px 44px;
+  border-radius:30px;
+  font-size:17px;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 6px 24px rgba(46,125,50,.3);
+  transition:all .25s ease;
+  border:none;
+  cursor:pointer;
+}
+.download-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 32px rgba(46,125,50,.4);
+}
+.download-btn:active{transform:translateY(0)}
+.download-btn svg{width:20px;height:20px}
+.hero .version-info{
+  margin-top:20px;
+  font-size:14px;
+  color:var(--text-muted);
+}
+.hero .version-info strong{color:var(--text-secondary)}
+
+/* Tips */
+.tips{
+  max-width:480px;
+  margin:24px auto 0;
+  background:#FFF8E1;
+  border:1px solid #FFE082;
+  padding:12px 20px;
+  border-radius:var(--radius-sm);
+  font-size:13px;
+  color:#F57F17;
+  display:none;
+  align-items:center;
+  gap:8px;
+}
+.tips.show{display:flex}
+
+/* Section */
+.section{padding:60px 0}
+.section-title{
+  font-size:26px;
+  font-weight:800;
+  color:var(--text);
+  margin-bottom:8px;
+  text-align:center;
+}
+.section-desc{
+  font-size:15px;
+  color:var(--text-muted);
+  text-align:center;
+  margin-bottom:36px;
+}
+
+/* Features */
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+.feature{
+  background:var(--bg);
+  padding:28px 24px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  transition:all .25s ease;
+}
+.feature:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+  border-color:transparent;
+}
+.feature .icon{
+  width:48px;height:48px;
+  background:var(--primary-lighter);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:16px;
+  font-size:24px;
+}
+.feature h3{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.feature p{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.6;
+}
+
+/* Version Card */
+.version-card{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
+  box-shadow:var(--shadow-sm);
+}
+.version-card .row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.version-card .row:last-child{border-bottom:none}
+.version-card .label{
+  color:var(--text-muted);
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.version-card .value{
+  color:var(--text);
+  font-size:14px;
+  font-weight:600;
+}
+.version-card .value.stable{color:var(--primary)}
+.version-card .value.beta{color:#F57F17}
+
+/* Changelog */
+.changelog-list{display:flex;flex-direction:column;gap:14px}
+.changelog-item{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  transition:all .2s ease;
+}
+.changelog-item:hover{
+  box-shadow:var(--shadow-md);
+  border-color:transparent;
+}
+.changelog-item .header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.changelog-item .ver{
+  font-size:16px;
+  font-weight:700;
+  color:var(--text);
+}
+.changelog-item .tag{
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:10px;
+  font-weight:600;
+}
+.changelog-item .tag.stable{
+  background:var(--primary-lighter);
+  color:var(--primary);
+}
+.changelog-item .tag.beta{
+  background:#FFF3E0;
+  color:#E65100;
+}
+.changelog-item .note{
+  font-size:14px;
+  color:var(--text-secondary);
+  line-height:1.7;
+}
+
+/* Footer */
+.footer{
+  text-align:center;
+  padding:40px 24px;
+  border-top:1px solid var(--border);
+  margin-top:40px;
+}
+.footer p{
+  color:var(--text-muted);
+  font-size:13px;
+  margin-bottom:12px;
+}
+.footer .links{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-bottom:16px;
+}
+.footer a{
+  color:var(--primary);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:500;
+  transition:color .2s;
+}
+.footer a:hover{color:var(--primary-light)}
+
+/* Loading */
+.loading{
+  text-align:center;
+  padding:40px;
+  color:var(--text-muted);
+  font-size:14px;
+}
+.loading::after{
+  content:'';
+  display:inline-block;
+  width:16px;height:16px;
+  border:2px solid var(--border);
+  border-top-color:var(--primary);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin-left:8px;
+  vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:640px){
+  .hero{padding:60px 20px 40px}
+  .hero h1{font-size:32px}
+  .hero .subtitle{font-size:15px}
+  .download-btn{padding:14px 36px;font-size:16px}
+  .section{padding:40px 0}
+  .section-title{font-size:22px}
+  .features{grid-template-columns:1fr 1fr;gap:14px}
+  .feature{padding:20px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="badge"><span class="dot"></span><span id="verTag">加载中...</span></div>
+    <h1>coc<span>部落</span></h1>
+    <p class="subtitle">部落冲突升级倒计时 · 阵型库 · 药水倍率计算，一款专为首领打造的辅助工具</p>
+    <a class="download-btn" id="dlBtn" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      下载最新版
+    </a>
+    <div class="version-info" id="verInfo"></div>
+    <div class="tips" id="updateTip">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      如出现无法更新，请在本页面重新下载安装包覆盖安装。
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <h2 class="section-title">核心功能</h2>
+    <p class="section-desc">全方位助力你的部落冲突之旅</p>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">⏱️</div>
+        <h3>升级倒计时</h3>
+        <p>导入村庄数据，实时追踪所有建筑、兵种、法术升级进度，完成前自动提醒。</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🏰</div>
+        <h3>阵型库</h3>
+        <p>精选各本阵型，一键复制游戏链接，主世界、夜世界、都城全覆盖。</p>
+      </div>
+      <div class="feature">
+        <div class="icon">⚗️</div>
+        <h3>药水倍率</h3>
+        <p>研究药水、战宠药水、工人药水、钟楼加速，精确折算剩余时间。</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🏆</div>
+        <h3>赛事提醒</h3>
+        <p>部落竞赛、突袭周末、赛季重置，重要事件倒计时不错过。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="changelog-list" id="changelog">
+      <div class="loading">加载中...</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="links">
+    <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=JIl9TPxJn5uzjmjFwk5Ev%2BCxACv5RbYSBMCzrM3oTuMVoJrcpmnzCGqIA0g%2FGvIJ&busi_data=eyJncm91cENvZGUiOiIxMDgyNjY4MzY0IiwidG9rZW4iOiJZNGxJZ2p1QmpNbE5iR2s3UVFlVFk0QkJjaS95QzJaWHVGWWJ3STF1Z2MwMC9uUFRlS3JGWUFTTFEwVHVLK1NzIiwidWluIjoiMzI0MTg3MzgxNiJ9&data=wjSzf-CSiY6of1bKnhpJextqDe0yKP6v397yEablVnEktikG707mjEHF-9k5EOwzAXAbvJL_HsHkjcxV0QU5Jg&svctype=4&tempid=h5_group_info" target="_blank">加入QQ群</a>
+    <a href="https://www.ifdian.net/a/coc08" target="_blank">支持作者</a>
+  </div>
+  <p>coc部落 · 仅供学习交流使用 · 与 Supercell 无关</p>
+</div>
+
+<script>
+const VERSION_URL = './version.json';
+fetch(VERSION_URL).then(r=>r.json()).then(data=>{
+  const stable = data.find(v=>v.is_stable) || data[0];
+  
+  document.getElementById('verTag').textContent = '★ v' + stable.version;
+  document.getElementById('dlBtn').href = './apk/stable';
+  document.getElementById('dlBtn').setAttribute('download', 'coc-buluo-v' + stable.version + '.apk');
+  document.getElementById('updateTip').classList.add('show');
+  document.getElementById('verInfo').innerHTML = '当前版本 <strong>v' + stable.version + '</strong>';
+
+  let logHtml = '';
+  const recent = data.filter(v=>!v.is_stable).slice(0, 6);
+  for (const item of recent) {
+    const tagClass = item.is_stable ? 'stable' : 'beta';
+    const tagText = item.is_stable ? '稳定版' : '测试版';
+    logHtml += '<div class="changelog-item"><div class="header"><span class="ver">v' + item.version + '</span><span class="tag ' + tagClass + '">' + tagText + '</span></div><div class="note">' + (item.notes || '暂无说明') + '</div></div>';
+  }
+  document.getElementById('changelog').innerHTML = logHtml;
+}).catch(()=>{
+  document.getElementById('verTag').textContent = '版本获取失败';
+  document.getElementById('changelog').innerHTML = '<div class="changelog-item"><div class="note">加载版本记录失败</div></div>';
+});
+</script>
+</body>
+</html>
